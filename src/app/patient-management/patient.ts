@@ -9,7 +9,7 @@ export interface Patient {
   email?: string;
   emergencyContact: string;
   disease: string;
-  checkedInAt: Date;
+  checkedInAt?: Date;
   checkedOutAt?: Date;
   createdAt: Date;
   updatedAt: Date;
