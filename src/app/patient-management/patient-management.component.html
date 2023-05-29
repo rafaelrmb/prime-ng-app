@@ -8,7 +8,7 @@
   [loading]="loading"
   [paginator]="true"
   currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-  [globalFilterFields]="['name', 'status']"
+  [globalFilterFields]="['name', 'severity']"
 >
   <ng-template pTemplate="caption">
     <div class="flex flex-column justify-content-between sm:flex-row">
@@ -52,6 +52,17 @@
           <p-columnFilter
             type="text"
             field="name"
+            display="menu"
+          ></p-columnFilter>
+        </div>
+      </th>
+
+      <th style="min-width: 15rem">
+        <div class="flex align-items-center">
+          Age
+          <p-columnFilter
+            type="text"
+            field="age"
             display="menu"
           ></p-columnFilter>
         </div>
@@ -114,8 +125,17 @@
         {{ patient.id }}
       </td>
 
-      <td>
+      <td class="flex align-items-center gap-2">
+        <img
+          src="{{ patient.photoURL }}"
+          alt="{{ patient.name }}}"
+          class="w-2rem h-2rem border-circle"
+        />
         {{ patient.name }}
+      </td>
+
+      <td>
+        {{ patient.age }}
       </td>
 
       <td>
