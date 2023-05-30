@@ -52,6 +52,22 @@ const patients: Patient[] = [
     updatedAt: new Date('2023-05-28T09:10:00Z'),
     riskFactor: 'Low',
     healthPlan: 'Private'
+  },
+  {
+    id: 4,
+    name: 'Jane Doe',
+    age: 23,
+    gender: 'Female',
+    address: '321 Oak St',
+    photoURL: 'https://thispersondoesnotexist.xyz/img/3344.jpg',
+    phone: '123-456-7890',
+    email: 'johndoe@example.com',
+    emergencyContact: 'Jane Doe',
+    disease: 'Diabetes',
+    createdAt: new Date('2023-05-01T08:00:00Z'),
+    updatedAt: new Date('2023-05-28T15:45:00Z'),
+    riskFactor: 'Critical',
+    healthPlan: 'SUS'
   }
 ];
 
