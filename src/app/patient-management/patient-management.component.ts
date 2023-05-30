@@ -28,9 +28,9 @@ import { Patient } from './patient';
   styleUrls: ['./patient-management.component.scss']
 })
 export class PatientManagementComponent {
-  patients: Patient[] = [];
+  patients: Patient[];
   loading = false;
-  severityLevels: string[] = ['low', 'medium', 'high', 'critical'];
+  severityLevels: string[] = ['low', 'moderate', 'high', 'critical'];
 
   constructor(private patientService: PatientService) {
     this.patients = this.patientService.getPatients();
@@ -45,7 +45,7 @@ export class PatientManagementComponent {
       case 'low':
         return 'success';
 
-      case 'medium':
+      case 'moderate':
         return 'info';
 
       case 'high':

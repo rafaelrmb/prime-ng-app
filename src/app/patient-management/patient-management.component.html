@@ -1,169 +1,176 @@
-<p-table
-  #dt1
-  [value]="patients"
-  dataKey="id"
-  [rows]="10"
-  [showCurrentPageReport]="true"
-  [rowsPerPageOptions]="[10, 25, 50]"
-  [loading]="loading"
-  [paginator]="true"
-  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-  [globalFilterFields]="['name', 'severity']"
->
-  <ng-template pTemplate="caption">
-    <div class="flex flex-column justify-content-between sm:flex-row">
-      <button
-        pButton
-        label="Clear"
-        class="p-button-outlined"
-        icon="pi pi-filter-slash"
-        (click)="clear(dt1)"
-      ></button>
-      <span class="p-input-icon-left mt-3 sm: mt-0">
-        <i class="pi pi-search"></i>
-        <input
-          style="width: 100%"
-          pInputText
-          type="text"
-          #globalFilter
-          (input)="dt1.filterGlobal(globalFilter.value, 'contains')"
-          placeholder="Search keyword"
-        />
-      </span>
-    </div>
-  </ng-template>
-
-  <ng-template pTemplate="header">
-    <tr>
-      <th style="min-width: 3rem">
-        <div class="flex align-items-center">
-          ID
-          <p-columnFilter
+<div class="mt-8 block w-full h-full bg-primary-reverse">
+  <p-table
+    #patientsTable
+    [value]="patients"
+    dataKey="id"
+    [rows]="10"
+    [showCurrentPageReport]="true"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [loading]="loading"
+    [paginator]="true"
+    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+    [globalFilterFields]="['name', 'age', 'riskFactor', 'checkedIn']"
+    class="patients-table"
+  >
+    <ng-template pTemplate="caption">
+      <div class="flex flex-column justify-content-between sm:flex-row">
+        <button
+          pButton
+          label="Clear"
+          class="p-button-outlined"
+          icon="pi pi-filter-slash"
+          (click)="clear(patientsTable)"
+        ></button>
+        <span class="p-input-icon-left mt-3 sm: mt-0">
+          <i class="pi pi-search"></i>
+          <input
+            style="width: 100%"
+            pInputText
             type="text"
-            field="id"
-            display="menu"
-          ></p-columnFilter>
-        </div>
-      </th>
+            #globalFilter
+            (input)="patientsTable.filterGlobal(globalFilter.value, 'contains')"
+            placeholder="Search keyword"
+          />
+        </span>
+      </div>
+    </ng-template>
 
-      <th style="min-width: 15rem">
-        <div class="flex align-items-center">
-          Name
-          <p-columnFilter
-            type="text"
-            field="name"
-            display="menu"
-          ></p-columnFilter>
-        </div>
-      </th>
+    <ng-template pTemplate="header">
+      <tr>
+        <th>
+          <div class="flex align-items-center">
+            ID
+            <p-columnFilter
+              type="text"
+              field="id"
+              display="menu"
+            ></p-columnFilter>
+          </div>
+        </th>
 
-      <th style="min-width: 15rem">
-        <div class="flex align-items-center">
-          Age
-          <p-columnFilter
-            type="text"
-            field="age"
-            display="menu"
-          ></p-columnFilter>
-        </div>
-      </th>
+        <th>
+          <div class="flex align-items-center">
+            Name
+            <p-columnFilter
+              type="text"
+              field="name"
+              display="menu"
+            ></p-columnFilter>
+          </div>
+        </th>
 
-      <th style="min-width: 10rem">
-        <div class="flex align-items-center">
-          Date
-          <p-columnFilter
-            type="date"
-            field="date"
-            display="menu"
-          ></p-columnFilter>
-        </div>
-      </th>
+        <th>
+          <div class="flex align-items-center">
+            Age
+            <p-columnFilter
+              type="numeric"
+              field="age"
+              display="menu"
+            ></p-columnFilter>
+          </div>
+        </th>
 
-      <th style="min-width: 10rem">
-        <div class="flex align-items-center">
-          Severity
-          <p-columnFilter field="status" matchMode="equals" display="menu">
-            <ng-template
-              pTemplate="filter"
-              let-value
-              let-filter="filterCallback"
+        <th>
+          <div class="flex align-items-center">
+            Date
+            <p-columnFilter
+              type="date"
+              field="date"
+              display="menu"
+            ></p-columnFilter>
+          </div>
+        </th>
+
+        <th style="min-width: 10rem">
+          <div class="flex align-items-center">
+            Risk Factor
+            <p-columnFilter
+              field="riskFactor"
+              matchMode="equals"
+              display="menu"
             >
-              <p-dropdown
-                [ngModel]="value"
-                [options]="severityLevels"
-                (onChange)="filter($event.value)"
-                placeholder="Any"
+              <ng-template
+                pTemplate="filter"
+                let-value
+                let-filter="filterCallback"
               >
-                <ng-template let-option pTemplate="item">
-                  <p-tag
-                    [value]="option.value"
-                    [severity]="getSeverity(option.label)"
-                  ></p-tag>
-                </ng-template>
-              </p-dropdown>
-            </ng-template>
-          </p-columnFilter>
-        </div>
-      </th>
+                <p-dropdown
+                  [ngModel]="value"
+                  [options]="severityLevels"
+                  (onChange)="filter($event.value)"
+                  placeholder="Any"
+                >
+                  <ng-template let-option pTemplate="item">
+                    <p-tag
+                      [value]="option"
+                      [severity]="getSeverity(option)"
+                    ></p-tag>
+                  </ng-template>
+                </p-dropdown>
+              </ng-template>
+            </p-columnFilter>
+          </div>
+        </th>
 
-      <th style="width: 3rem">
-        <div class="flex align-items-center">
-          Checked In
-          <p-columnFilter
-            type="boolean"
-            field="verified"
-            display="menu"
-          ></p-columnFilter>
-        </div>
-      </th>
-    </tr>
-  </ng-template>
+        <th style="min-width: max-content">
+          <div class="flex align-items-center">
+            Checked In
+            <p-columnFilter
+              type="boolean"
+              field="checkedIn"
+              display="menu"
+            ></p-columnFilter>
+          </div>
+        </th>
+      </tr>
+    </ng-template>
 
-  <ng-template pTemplate="body" let-patient>
-    <tr>
-      <td>
-        {{ patient.id }}
-      </td>
+    <ng-template pTemplate="body" let-patient>
+      <tr>
+        <td>
+          {{ patient.id }}
+        </td>
 
-      <td class="flex align-items-center gap-2">
-        <img
-          src="{{ patient.photoURL }}"
-          alt="{{ patient.name }}}"
-          class="w-2rem h-2rem border-circle"
-        />
-        {{ patient.name }}
-      </td>
+        <td class="flex align-items-center gap-2">
+          <img
+            src="{{ patient.photoURL }}"
+            alt="{{ patient.name }}}"
+            class="w-2rem h-2rem border-circle"
+          />
+          {{ patient.name }}
+        </td>
 
-      <td>
-        {{ patient.age }}
-      </td>
+        <td>
+          {{ patient.age }}
+        </td>
 
-      <td>
-        {{ patient.createdAt | date : "MM/dd/yyyy" }}
-      </td>
+        <td>
+          {{ patient.createdAt | date : "MM/dd/yyyy" }}
+        </td>
 
-      <td>
-        <p-tag
-          [value]="patient.riskFactor"
-          [severity]="getSeverity(patient.riskFactor)"
-        ></p-tag>
-      </td>
+        <td>
+          <p-tag
+            [value]="patient.riskFactor"
+            [severity]="getSeverity(patient.riskFactor)"
+          ></p-tag>
+        </td>
 
-      <td class="text-center">
-        <i
-          class="pi"
-          [ngClass]="{
-            'text-green-500 pi-check-circle': patient.checkedInAt,
-            'text-red-500 pi-times-circle': !patient.checkedInAt
-          }"
-        ></i>
-      </td>
-    </tr>
-  </ng-template>
+        <td>
+          <i
+            class="pi"
+            [ngClass]="{
+              'text-green-500 pi-check-circle': patient.checkedInAt,
+              'text-red-500 pi-times-circle': !patient.checkedInAt
+            }"
+          ></i>
+        </td>
+      </tr>
+    </ng-template>
 
-  <ng-template pTemplate="emptymessage">
-    <tr>
-      <td colspan="7">No patients found.</td>
-    </tr>
-  </ng-template>
-</p-table>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="7">No patients found.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
