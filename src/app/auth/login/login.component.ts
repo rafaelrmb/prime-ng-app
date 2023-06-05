@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { InputTextModule } from 'primeng/inputtext';
+import { AuthService } from './../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -20,7 +21,7 @@ export class LoginComponent implements OnInit {
   signInForm!: FormGroup;
   loading = false;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.signInForm = this.fb.group({
@@ -29,9 +30,10 @@ export class LoginComponent implements OnInit {
     })
   }
 
-  onSubmit() {
+  async onSubmit() {
     this.load();
     console.log(this.signInForm.value);
+    await this.authService.login(this.signInForm.value.email, this.signInForm.value.password);
     this.load();
   }
 
