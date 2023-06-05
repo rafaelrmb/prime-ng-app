@@ -5,7 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    loadComponent: () => import('./patient-management/patient-management.component').then(m => m.PatientManagementComponent)
+    loadComponent: () => import('./auth/login/login.component').then(m => m.LoginComponent)
   }
 ];
 
